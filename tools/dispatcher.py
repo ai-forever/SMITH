@@ -12,12 +12,12 @@ import json
 from dataclasses import dataclass
 from typing import Any, List, Optional, Sequence
 
-from harness.common import DocumentFetcher, FetchedDocument, SearchClient, SearchHit, ToolCall
-from harness.common.environment_messages import render_tool_calls_exceeded_warning
+from common import DocumentFetcher, FetchedDocument, SearchClient, SearchHit, ToolCall
+from common.environment_messages import render_tool_calls_exceeded_warning
 
-from ..config import HarnessConfig, ToolResultFormatVersion
-from ..state import SessionState
-from ..browser import (
+from config import HarnessConfig, ToolResultFormatVersion
+from state import SessionState
+from browser import (
     build_document_page,
     build_find_page,
     build_serp_page,

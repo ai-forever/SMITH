@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from ..config import HarnessConfig
-from harness.common import ToolSchema
-from ..state import SessionState
+from config import HarnessConfig
+from common import ToolSchema
+from state import SessionState
 from .schemas import (
     PICK_SUPPORTING_DOCUMENTS_TOOL,
     final_answer_tool,

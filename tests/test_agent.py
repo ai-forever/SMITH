@@ -10,9 +10,19 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if REPO_ROOT not in sys.path:
     sys.path.insert(0, REPO_ROOT)
 
-from harness.smit_harness import HarnessConfig, Message, RetrievalResult, RetrieverAgent, SearchHit, ToolCall
-from harness.common import LLMClient, LLMResponse, SearchClient
-from harness.smit_harness.tools import ANSWER_TOOL_NAME, TOOL_STRATEGY_FINAL_TOOL_NAME
+from agent import RetrieverAgent
+from common import (
+    Message,
+    RetrievalResult,
+    SearchHit,
+    ToolCall,
+)
+from config import HarnessConfig
+from common import LLMClient, LLMResponse, SearchClient
+from tools import (
+    ANSWER_TOOL_NAME,
+    TOOL_STRATEGY_FINAL_TOOL_NAME,
+)
 
 
 class FakeSearch(SearchClient):

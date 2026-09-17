@@ -44,7 +44,7 @@ Expose retrieval through the `SearchClient` protocol. The harness calls
 `search(query, top_k)` whenever the agent invokes `search_index`.
 
 ```python
-from harness.common import SearchHit
+from common import SearchHit
 
 
 class DenseSearch:
@@ -96,7 +96,7 @@ the complete conversation and the tools currently allowed by the harness.
 ```python
 import json
 
-from harness.common import LLMResponse, ToolCall
+from common import LLMResponse, ToolCall
 
 
 class AgentModel:

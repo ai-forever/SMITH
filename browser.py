@@ -13,7 +13,7 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Mapping, Optional, Sequence, Tuple
 from urllib.parse import urlparse
 
-from harness.common import SearchHit
+from common import SearchHit
 
 DEFAULT_VIEWPORT_LINES = 50
 _LINE_WRAP_WIDTH = 80

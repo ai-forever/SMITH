@@ -5,8 +5,8 @@ from __future__ import annotations
 from functools import lru_cache
 from pathlib import Path
 
-from ..config import HarnessConfig
-from ..tools.schemas import final_answer_tool
+from config import HarnessConfig
+from tools.schemas import final_answer_tool
 
 PROMPTS_ROOT = Path(__file__).resolve().parent / "system"
 AGENT_MAX_K_TEMPLATE = "agent_max_k.md"

@@ -4,10 +4,10 @@ from __future__ import annotations
 
 from typing import Optional
 
-from harness.common import AgentLike, DocumentFetcher, LLMClient, SearchClient
+from common import AgentLike, DocumentFetcher, LLMClient, SearchClient
 
-from .agent import RetrieverAgent
-from .config import HarnessConfig
+from agent import RetrieverAgent
+from config import HarnessConfig
 
 __all__ = [
     "AgentLike",

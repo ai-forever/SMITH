@@ -3,8 +3,8 @@
 ``HarnessConfig`` is a *resolved* level-0 behavior slice: it carries prompt
 version, final-response strategy, and retrieval/tool/loop limits. It never
 carries a dataset id, qrels, OBS path, service URL, or provider credential --
-those stay in the host's own settings (``trace_generation.AgentSettings`` and
-friends) and get translated into a ``HarnessConfig`` by the host.
+those stay in the host's own settings and get translated into a
+``HarnessConfig`` by the host.
 """
 
 from __future__ import annotations
@@ -12,8 +12,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Literal, Optional
 
-from harness.common import DEFAULT_MAX_TURNS, estimate_max_turns
-from harness.common.environment_messages import (
+from common import DEFAULT_MAX_TURNS, estimate_max_turns
+from common.environment_messages import (
     DEFAULT_TOOL_CALLS_EXCEEDED_WARNING,
     ToolCallsExceededWarning,
 )

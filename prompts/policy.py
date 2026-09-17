@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from ..config import HarnessConfig
-from harness.common import Message
-from ..state import SessionState
+from config import HarnessConfig
+from common import Message
+from state import SessionState
 from .system_prompt import render_system_prompt
 
 

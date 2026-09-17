@@ -10,9 +10,9 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Sequence, Set, Tuple
 
-from harness.common import Message, SearchHit
+from common import Message, SearchHit
 
-from .browser import BrowserPageStore
+from browser import BrowserPageStore
 
 
 @dataclass

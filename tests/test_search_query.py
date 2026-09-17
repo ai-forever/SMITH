@@ -8,10 +8,17 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if REPO_ROOT not in sys.path:
     sys.path.insert(0, REPO_ROOT)
 
-from harness.common import LLMResponse, ToolCall
-from harness.smit_harness import HarnessConfig, RetrieverAgent
-from harness.smit_harness.tools import ANSWER_TOOL_NAME, truncate_search_query
-from harness.smit_harness.tests.test_agent import FakeLLM, FakeSearch
+from common import LLMResponse, ToolCall
+from agent import RetrieverAgent
+from config import HarnessConfig
+from tools import (
+    ANSWER_TOOL_NAME,
+    truncate_search_query,
+)
+from tests.test_agent import (
+    FakeLLM,
+    FakeSearch,
+)
 
 
 class TruncateSearchQueryTests(unittest.TestCase):

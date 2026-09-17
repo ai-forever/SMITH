@@ -1,5 +1,5 @@
-"""Compatibility shim — ``RetrievalResult`` lives in ``harness.common``."""
+"""Compatibility shim — ``RetrievalResult`` lives in ``common``."""
 
-from harness.common.result import RetrievalResult
+from common.result import RetrievalResult
 
 __all__ = ["RetrievalResult"]

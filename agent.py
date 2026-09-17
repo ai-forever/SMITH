@@ -12,13 +12,13 @@ from __future__ import annotations
 
 from typing import Optional, Sequence
 
-from harness.common import DocumentFetcher, LLMClient, Message, RetrievalResult, SearchClient
-from harness.common.progress import RetrieveProgressSink
+from common import DocumentFetcher, LLMClient, Message, RetrievalResult, SearchClient
+from common.progress import RetrieveProgressSink
 
-from .config import HarnessConfig
-from .prompts import PromptPolicy
-from .state import SessionState
-from .tools import ToolDispatcher, ToolPolicy
+from config import HarnessConfig
+from prompts import PromptPolicy
+from state import SessionState
+from tools import ToolDispatcher, ToolPolicy
 
 
 class RetrieverAgent:

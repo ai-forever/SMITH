@@ -4,10 +4,10 @@ from __future__ import annotations
 
 import unittest
 
-from harness.smit_harness.config import HarnessConfig
-from harness.smit_harness.state import SessionState
-from harness.smit_harness.tools.policy import ToolPolicy
-from harness.smit_harness.tools.schemas import (
+from config import HarnessConfig
+from state import SessionState
+from tools.policy import ToolPolicy
+from tools.schemas import (
     SEARCH_INDEX_TOOL,
     SEARCH_INDEX_TOOL_FIXED_K,
     search_index_tool,

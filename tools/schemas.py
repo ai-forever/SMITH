@@ -12,8 +12,8 @@ from __future__ import annotations
 
 from typing import Sequence
 
-from ..config import HarnessConfig
-from harness.common import ToolSchema
+from config import HarnessConfig
+from common import ToolSchema
 
 #: Runtime + metadata name for ``custom_giga_tool_strategy`` / native / corpus-ids-only.
 ANSWER_TOOL_NAME = "answer"

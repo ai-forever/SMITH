@@ -6,24 +6,20 @@ import os
 import sys
 import unittest
 
-REPO_ROOT = os.path.dirname(
-    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-)
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if REPO_ROOT not in sys.path:
     sys.path.insert(0, REPO_ROOT)
 
-from harness.common import FetchedDocument, LLMClient, LLMResponse, SearchClient, SearchHit, ToolCall
-from harness.smit_harness import HarnessConfig, RetrieverAgent
-from harness.smit_harness.browser import (
+from common import FetchedDocument, LLMClient, LLMResponse, SearchClient, SearchHit, ToolCall
+from agent import RetrieverAgent
+from config import HarnessConfig
+from browser import (
     parse_citation_cursors,
     supporting_corpus_ids_from_explanation,
 )
-from harness.smit_harness.prompts.system_prompt import render_system_prompt
-from harness.smit_harness.tools.policy import ToolPolicy
-from harness.smit_harness.tools.schemas import ANSWER_OPENRESEARCHER_TOOL, openresearcher_browser_tools
-from harness.smit_harness.state import SessionState
-from trace_generation.common.agent_tools_schema import build_effective_agent_tools_schema
-from trace_generation.common.postprocessing import DefaultPostProcessor
+from prompts.system_prompt import render_system_prompt
+from tools.policy import ToolPolicy
+from state import SessionState
 
 
 class _FakeSearch(SearchClient):
@@ -112,22 +108,6 @@ class OpenResearcherBrowserTests(unittest.TestCase):
         names = [tool.name for tool in ToolPolicy().schemas(state, config)]
         self.assertEqual(names, ["browser.open", "browser.find", "answer"])
 
-    def test_host_tools_schema_lists_four_openresearcher_tools(self) -> None:
-        tools = build_effective_agent_tools_schema("openresearcher")
-        names = [tool["function"]["name"] for tool in tools]
-        self.assertEqual(
-            names,
-            ["browser.search", "browser.open", "browser.find", "answer"],
-        )
-        answer_params = tools[-1]["function"]["parameters"]
-        self.assertEqual(
-            answer_params["required"],
-            ["explanation", "exact_answer", "confidence"],
-        )
-        schema_names = [t.name for t in openresearcher_browser_tools()] + [
-            ANSWER_OPENRESEARCHER_TOOL.name
-        ]
-        self.assertEqual(names, schema_names)
 
     def test_v6_system_prompt_omits_hardcoded_tool_names(self) -> None:
         for fixed_k in (False, True):
@@ -313,7 +293,7 @@ class OpenResearcherBrowserTests(unittest.TestCase):
         self.assertEqual(result.browser_cursor_to_corpus_id, {1: "42"})
         self.assertEqual(fetcher.fetch_by_corpus_id_calls.count("42"), 1)
 
-    def test_citation_parser_and_postprocessor(self) -> None:
+    def test_citation_parser(self) -> None:
         self.assertEqual(parse_citation_cursors("x【71†L0-L6】 y【3†L2】 z【71†L9】"), [71, 3])
         mapped = supporting_corpus_ids_from_explanation(
             "see【1†L0-L2】 and【9†L1】 and【1†L5】",
@@ -321,67 +301,6 @@ class OpenResearcherBrowserTests(unittest.TestCase):
         )
         self.assertEqual(mapped, ["doc-a"])  # 9 dropped (unknown / SERP-only)
 
-        # Prefer citation map over empty / absent supporting_corpus_ids.
-        post = DefaultPostProcessor(
-            agent_messages=[
-                {
-                    "type": "ai",
-                    "tool_calls": [
-                        {
-                            "id": "a1",
-                            "name": "answer",
-                            "args": {
-                                "explanation": "cite【1†L0-L2】 and SERP【0†L1】",
-                                "exact_answer": "Paris",
-                                "confidence": 80,
-                            },
-                        }
-                    ],
-                },
-                {
-                    "type": "tool",
-                    "tool_call_id": "a1",
-                    "content": (
-                        '{"explanation":"cite【1†L0-L2】 and SERP【0†L1】",'
-                        '"exact_answer":"Paris","confidence":80}'
-                    ),
-                },
-            ],
-            structured_response=None,
-            semantic_ranked_hits=[],
-            corpus=[],
-            corpus_id_to_idx={},
-            retriever_k=5,
-            browser_cursor_to_corpus_id={1: "doc-a"},  # cursor 0 (SERP) omitted
-        )
-        parsed, err = post.normalize_agent_structured_response()
-        self.assertIsNone(err)
-        self.assertEqual(parsed["answer"], "Paris")
-        self.assertEqual(parsed["supporting_corpus_ids"], ["doc-a"])
-        self.assertEqual(parsed["exact_answer"], "Paris")
-        self.assertEqual(parsed["confidence"], 80.0)
-        self.assertIn("cite【1†L0-L2】", parsed["explanation"])
-
-    def test_postprocessor_exact_answer_overrides_empty_answer(self) -> None:
-        post = DefaultPostProcessor(
-            agent_messages=[],
-            structured_response={
-                "explanation": "because【2†L0】",
-                "exact_answer": "Lyon",
-                "answer": "",
-                "confidence": 70,
-                "supporting_corpus_ids": [],
-            },
-            semantic_ranked_hits=[],
-            corpus=[],
-            corpus_id_to_idx={},
-            retriever_k=5,
-            browser_cursor_to_corpus_id={2: "doc-lyon"},
-        )
-        parsed, err = post.normalize_agent_structured_response()
-        self.assertIsNone(err)
-        self.assertEqual(parsed["answer"], "Lyon")
-        self.assertEqual(parsed["supporting_corpus_ids"], ["doc-lyon"])
 
 
 if __name__ == "__main__":

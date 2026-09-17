@@ -1,5 +1,5 @@
-"""Compatibility shim — hit formatters live in ``harness.common``."""
+"""Compatibility shim — hit formatters live in ``common``."""
 
-from harness.common.format import search_hit_to_ranked_dict
+from common.format import search_hit_to_ranked_dict
 
 __all__ = ["search_hit_to_ranked_dict"]

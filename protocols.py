@@ -1,6 +1,6 @@
-"""Compatibility shim — shared contracts live in ``harness.common``."""
+"""Compatibility shim — shared contracts live in ``common``."""
 
-from harness.common.protocols import (  # noqa: F401
+from common.protocols import (  # noqa: F401
     LLMClient,
     LLMResponse,
     Message,

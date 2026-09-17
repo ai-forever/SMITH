@@ -1,6 +1,6 @@
 """SMIT tool-calling retrieval-agent harness."""
 
-from harness.common import (
+from common import (
     AgentLike,
     LLMClient,
     LLMResponse,
@@ -13,10 +13,10 @@ from harness.common import (
     estimate_max_turns,
 )
 
-from .agent import RetrieverAgent
-from .config import HarnessConfig
-from .factory import build_retriever_agent
-from .state import SessionState
+from agent import RetrieverAgent
+from config import HarnessConfig
+from factory import build_retriever_agent
+from state import SessionState
 
 __all__ = [
     "AgentLike",
