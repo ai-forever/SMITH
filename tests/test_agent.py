@@ -56,21 +56,6 @@ class FakeLLM(LLMClient):
 
 
 class RetrieverAgentTests(unittest.TestCase):
-    def test_smith_v1_search_then_citations(self) -> None:
-        config = HarnessConfig.smith_v1(max_search_calls=1)
-        llm = FakeLLM([
-            LLMResponse(tool_calls=(ToolCall(name="search_index", arguments={"query": "q"}, id="1"),)),
-            LLMResponse(tool_calls=(ToolCall(name=ANSWER_TOOL_NAME, arguments={"supporting_corpus_ids": ["q_0"]}, id="2"),)),
-        ])
-        result = RetrieverAgent(config, llm, FakeSearch()).retrieve("question")
-        self.assertFalse(result.errors)
-        self.assertEqual(list(result.supporting_corpus_ids), ["q_0"])
-        self.assertEqual(llm.seen_tools[-1], [ANSWER_TOOL_NAME])
-        self.assertIn(config.search_notice(0), [m.content for m in result.messages])
-        self.assertIn(config.search_notice(1), [m.content for m in result.messages])
-        observation = next(m for m in result.messages if m.role == "tool")
-        self.assertTrue(observation.content.endswith(config.search_notice(1)))
-
     def test_retriever_only_short_circuit(self) -> None:
         search = FakeSearch()
         llm = FakeLLM([])

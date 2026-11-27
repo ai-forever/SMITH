@@ -16,11 +16,7 @@ The three main application components are:
 Create these components once and reuse them across calls to
 `RetrieverAgent.retrieve`.
 
-## Model profiles
-
-For SMITH-v1 use `HarnessConfig.smith_v1()`. The AIJ evaluation used the v4.3 prompt, visible search budget, and a final `answer` tool taking only `supporting_corpus_ids`. The default budget is six searches. Pass `max_search_calls=25` for the full TRuST, BrowseComp-Plus, and RUMBA profiles.
-
-## Legacy SMITH-Exp defaults
+## Pinned agent defaults
 
 `HarnessConfig()` is the SMITH-Exp operating point. Read the pin from the
 config rather than restating it in application code:
@@ -149,8 +145,8 @@ content, assistant tool calls, and the `tool_call_id` on tool-result messages.
 Keep tool-call IDs unchanged between the assistant request and corresponding
 tool result.
 
-The latest agent model is
-[ai-forever/SMITH-v1](https://huggingface.co/ai-forever/SMITH-v1).
+The recommended experimental agent model is
+[ai-forever/SMITH-Exp](https://huggingface.co/ai-forever/SMITH-Exp).
 Follow its model card for the chat template, tool parser, and serving command.
 
 ## Run the agent loop
@@ -158,16 +154,17 @@ Follow its model card for the chat template, tool parser, and serving command.
 With `HarnessConfig` and `RetrieverAgent` imported from the package:
 
 ```python
-config = HarnessConfig.smith_v1()
+config = HarnessConfig()
 
 agent = RetrieverAgent(
     config=config,
-    llm=AgentModel(openai_client, "ai-forever/SMITH-v1", config),
+    llm=AgentModel(openai_client, "ai-forever/SMITH-Exp", config),
     search=DenseSearch(embedder, index, corpus),
 )
 
 result = agent.retrieve("What evidence answers the question?")
 
+print(result.answer)
 print(result.supporting_corpus_ids)
 for search_query, hits in result.search_history:
     print(search_query, [hit.corpus_id for hit in hits])
