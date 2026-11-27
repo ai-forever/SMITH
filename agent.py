@@ -59,10 +59,6 @@ class RetrieverAgent:
 
         for _ in range(self.config.max_turns):
             messages = self._prompts.render(state, self.config)
-            if self.config.visible_search_budget:
-                notice = Message(role="user", content=self.config.search_notice(state.tool_calls_executed))
-                state.messages.append(notice)
-                messages.append(notice)
             schemas = self._tools.schemas(state, self.config)
             try:
                 response = self.llm.call(messages, schemas)
