@@ -1,7 +1,7 @@
 # SMITH search agent
 
 This repository contains the harness for search agent
-[ai-forever/SMITH-v1](https://huggingface.co/ai-forever/SMITH-v1)
+[SMITH-Exp](https://huggingface.co/ai-forever/SMITH-Exp/tree/exp)
 and other models from the
 [SMITH collection](https://huggingface.co/collections/ai-forever/smith).
 

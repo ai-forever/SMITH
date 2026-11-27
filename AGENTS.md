@@ -146,7 +146,7 @@ Keep tool-call IDs unchanged between the assistant request and corresponding
 tool result.
 
 The recommended experimental agent model is
-[ai-forever/SMITH-v1](https://huggingface.co/ai-forever/SMITH-v1).
+[SMITH-Exp](https://huggingface.co/ai-forever/SMITH-Exp/tree/exp).
 Follow its model card for the chat template, tool parser, and serving command.
 
 ## Run the agent loop
