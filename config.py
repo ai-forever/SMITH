@@ -95,6 +95,27 @@ class HarnessConfig:
     top_p: float = 1.0
     tool_choice: str = "required"
 
+    visible_search_budget: bool = False
+
+    @classmethod
+    def smith_v1(cls, max_search_calls: int = 6) -> HarnessConfig:
+        strategy = "custom_tool_strategy_corpus_ids_only"
+        return cls(
+            final_response_strategy=strategy,
+            max_search_calls=max_search_calls,
+            retriever_k=100,
+            visible_search_budget=True,
+            max_turns=estimate_max_turns(max_search_calls, final_response_strategy=strategy,
+                                         system_prompt_version="v4.3"),
+        )
+
+    def search_notice(self, used: int) -> str:
+        remaining = self.max_search_calls - used
+        text = f"[Searches used: {used} of {self.max_search_calls}. Remaining for the whole question: {remaining}.]"
+        if remaining <= 2:
+            text += "\nOnly two or fewer searches remain. Prepare to call answer with the evidence available."
+        return text
+
     @property
     def uses_fixed_agent_k(self) -> bool:
         return self.agent_fixed_k is not None
