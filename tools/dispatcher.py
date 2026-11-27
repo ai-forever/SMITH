@@ -216,13 +216,10 @@ class ToolDispatcher:
         if config.context_management_strategy == "hide_shown_retrieved_docs":
             hits = _hide_shown_hits(hits, state, search_number=search_number)
         state.search_history.append((query, hits))
-        return ToolOutcome(
-            content=_format_search_results(
-                hits,
-                state,
-                tool_result_format_version=config.tool_result_format_version,
-            )
-        )
+        content = _format_search_results(hits, state, tool_result_format_version=config.tool_result_format_version)
+        if config.visible_search_budget:
+            content += "\n" + config.search_notice(search_number)
+        return ToolOutcome(content=content)
 
     def _execute_browser_search(
         self, call: ToolCall, state: SessionState, config: HarnessConfig
