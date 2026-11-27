@@ -145,16 +145,30 @@ content, assistant tool calls, and the `tool_call_id` on tool-result messages.
 Keep tool-call IDs unchanged between the assistant request and corresponding
 tool result.
 
-The recommended experimental agent model is
-[SMITH-Exp](https://huggingface.co/ai-forever/SMITH-Exp/tree/exp).
-Follow its model card for the chat template, tool parser, and serving command.
+For [SMITH-v1](https://huggingface.co/ai-forever/SMITH-Exp/tree/v1), serve the Hugging Face checkpoint at
+revision `v1` and use the IDs-only configuration below. Follow its model card
+for the chat template and tool parser. The [Exp checkpoint](https://huggingface.co/ai-forever/SMITH-Exp/tree/exp) uses the
+[`exp` harness tag](https://github.com/ai-forever/SMITH/tree/exp).
+
+SMITH-v1 calls `search_index` iteratively and finishes with `answer` containing
+`supporting_corpus_ids`. The published evaluations showed the model the remaining
+search budget at each turn. Changes to prompts, tools, parsing, or stopping logic
+can affect retrieval quality.
+
+For vLLM, use the checkpoint's
+[`gigachat3_guided_decoding.py`](https://huggingface.co/ai-forever/SMITH-Exp/blob/v1/gigachat3_guided_decoding.py)
+plugin with the supplied
+[`chat_template.jinja`](https://huggingface.co/ai-forever/SMITH-Exp/blob/v1/chat_template.jinja).
+The plugin integrates with the GigaChat 3 tool parser and constrains tool-call
+structure so the harness can reliably parse both actions. See the
+[serving example](https://huggingface.co/ai-forever/SMITH-Exp/blob/v1/README.md#vllm).
 
 ## Run the agent loop
 
 With `HarnessConfig` and `RetrieverAgent` imported from the package:
 
 ```python
-config = HarnessConfig()
+config = HarnessConfig(final_response_strategy="custom_tool_strategy_corpus_ids_only")
 
 agent = RetrieverAgent(
     config=config,
