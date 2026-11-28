@@ -8,9 +8,9 @@
 
 ## News
 
-🔥 2026-11-28: [SMITH-v1](https://huggingface.co/ai-forever/SMITH-Exp/tree/v1) updates the retrieval checkpoint. Standalone Agent Recall@10 rose by 14.13 percentage points on BrowseComp-Plus and 7.75 points on TRuST on the shared evaluation cohorts. See [Metrics](#metrics) for standalone and routed retrieval results.
+🔥 2026-11-28: [\[link\]](https://huggingface.co/ai-forever/SMITH-Exp/tree/v1) **SMITH-v1** updates the retrieval checkpoint. Standalone Agent Recall@10 rose by 14.13 percentage points on BrowseComp-Plus and 7.75 points on TRuST on the shared evaluation cohorts. See [Metrics](#metrics) for standalone and routed retrieval results.
 
-🎯 2026-09-17: [SMITH-Exp](https://huggingface.co/ai-forever/SMITH-Exp/tree/exp) was released on R&D Day. The original checkpoint and card are preserved under the `exp` tag, with a [matching harness](https://github.com/ai-forever/SMITH/tree/exp).
+🎯 2026-09-17: [\[link\]](https://huggingface.co/ai-forever/SMITH-Exp/tree/exp) **SMITH-Exp** was released on R&D Day. The original checkpoint and card are preserved under the `exp` tag, with a [matching harness](https://github.com/ai-forever/SMITH/tree/exp).
 
 ## Evaluation
 
